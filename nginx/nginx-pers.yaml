@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-pers
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-pers
+  template:
+    metadata:
+      labels:
+        app: nginx-pers
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: nginx-data
+          mountPath: /data
+      volumes:
+      - name: nginx-data
+        persistentVolumeClaim:
+          claimName: nginx-claim
